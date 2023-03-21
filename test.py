@@ -1,8 +1,5 @@
 import unittest
-
 from run import RunGame
-
-
 class TestCase(unittest.TestCase):
     def setUp(self):
         (

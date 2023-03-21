@@ -1,20 +1,13 @@
-from dataclasses import dataclass, field
-from operator import attrgetter
-
 from battle import Battle
+from dataclasses import dataclass, field
 from pos import Pos
+from operator import attrgetter
 
 
 class Drowned(Exception):
     pass
 
-
 class Arena:
-    """
-    The Arena class handles movement of its knights and items.
-    The `board` property is a matrix of Pos elements.
-    """
-
     def __init__(self):
         board = []
         for y in range(0, 8):
@@ -24,7 +17,6 @@ class Arena:
         self.board = tuple(board)
 
     def move_knight(self, knight, direction):
-        # clear out the old position square
         knight.pos.knight = None
 
         try:
@@ -36,7 +28,6 @@ class Arena:
                 print('🔸 Loot dropped:', loot)
         else:
             if self._is_square_with_knight(_pos):
-                # Battle!
                 winner, loser = Battle.attack(knight, _pos.knight)
                 self._move_knight_pos(winner, _pos)
                 loot, last_pos = Battle.kill_knight(loser)
@@ -60,9 +51,6 @@ class Arena:
             return knight
 
     def drop_loot(self, item, pos):
-        """
-        Drop item onto Pos, update item pos.
-        """
         if item:
             item.pos = pos
             pos.items.append(item)
@@ -70,9 +58,6 @@ class Arena:
             return True
 
     def _move_knight_pos(self, knight, pos):
-        """
-        Assign Pos to Knight and vice-versa.
-        """
         knight.pos = pos
         pos.knight = knight
         if knight.equipped:
@@ -92,13 +77,6 @@ class Arena:
         print('')
 
     def _direction_to_pos(self, direction: str, old_pos: Pos):
-        """
-        Translate direction to Pos instance.
-        Out of bounds coordinates will raise a `Drowned` error.
-        This is needed in order to deal with tuple index wrap-around.
-        e.g. On the initial board, when going North, the Y knight's
-             position will wrap around and end up battling the G knight!
-        """
         dir_map = {
             'N': (old_pos.y - 1, old_pos.x),
             'S': (old_pos.y + 1, old_pos.x),

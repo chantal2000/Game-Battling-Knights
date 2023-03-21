@@ -1,14 +1,6 @@
 class Battle:
-    """
-    > All warfare is based on deception.
-    This class deals with matters of life and death.
-    """
-
     @staticmethod
     def attack(attacker, defendant):
-        """
-        Battle between two knights, return winning knight.
-        """
         attack_score = attacker.base_attack + 0.5
         defend_score = defendant.base_defence
 
@@ -26,9 +18,6 @@ class Battle:
 
     @staticmethod
     def kill_knight(knight, status=1):
-        """
-        Kill knight and return loot and last position.
-        """
         loot = knight.equipped
         last_pos = knight.pos
 

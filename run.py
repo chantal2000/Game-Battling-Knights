@@ -3,24 +3,19 @@ from serialize import Serialize
 from item import Item
 from knight import Knight
 
-
 class RunGame:
     def setup_board(self):
-        """
-        Setup initial board with: knights, items, and positions.
-        """
         self.arena = Arena()
         ab = self.arena.board
-
         self.R = Knight('R', 'red', ab[0][0])
-        self.Y = Knight('Y', 'yellow', ab[0][7])
         self.B = Knight('B', 'blue', ab[7][0])
         self.G = Knight('G', 'green', ab[7][7])
+        self.Y = Knight('Y', 'yellow', ab[0][7])
 
         ab[0][0].knight = self.R
-        ab[0][7].knight = self.Y
         ab[7][0].knight = self.B
         ab[7][7].knight = self.G
+        ab[0][7].knight = self.Y
 
         self.item_axe = Item('Axe', 4, ab[2][2], 2, 0)
         self.item_dagger = Item('Dagger', 2, ab[2][5], 1, 0)
@@ -44,7 +39,7 @@ class RunGame:
             self.item_helmet,
         )
 
-    def run_instructions(self):
+    def run_instruction(self):
         instructions = Serialize.read_moves()
 
         for (knight_id, direction) in instructions:
@@ -61,14 +56,14 @@ if __name__ == '__main__':
         kY,
         kB,
         kG,
+        item_magicstaff,
         item_axe,
         item_dagger,
-        item_magicstaff,
         item_helmet,
     ) = game.setup_board()
 
     game.arena.render()
-    game.run_instructions()
+    game.run_instruction()
     game.arena.render()
     state = Serialize.serialize_gamestate((kR, kY, kB, kG), (item_axe, item_dagger, item_magicstaff, item_helmet))
     Serialize.commit_to_fs(state)

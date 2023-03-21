@@ -1,13 +1,8 @@
 from pathlib import Path
 from json import dumps
-
-
 class Serialize:
     @staticmethod
     def read_moves():
-        """
-        Read moves from file and output instructions.
-        """
         _contents = Path('./moves.txt').read_text()
         moves = _contents.strip().split('\n')
         if moves[0] == 'GAME-START':
@@ -40,4 +35,4 @@ class Serialize:
 
     @staticmethod
     def commit_to_fs(state):
-        return Path('./final_state.json').write_text(dumps(state))
+        return Path('./state.json').write_text(dumps(state))
